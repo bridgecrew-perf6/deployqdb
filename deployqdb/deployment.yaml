@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qdb-demo # This is programmatically overwritten when used
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      bb: qdb
+  template:
+    metadata:
+      labels:
+        bb: qdb
+    spec:
+      containers:
+      - name: quest-db
+        image: questdb/questdb

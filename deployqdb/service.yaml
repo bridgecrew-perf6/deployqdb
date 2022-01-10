@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qdb-demo # This is programmatically overwritten when used
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    bb: qdb
+  ports:
+  - port: 9000
