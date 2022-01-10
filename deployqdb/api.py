@@ -12,6 +12,11 @@ from pydantic import BaseModel, Field
 MINIKUBE_IP = os.popen("minikube ip").read()[:-1]
 K8S_CONFIG = kubernetes.client.Configuration()
 K8S_CONFIG.host = "http://127.0.0.1:8888" # NOTE hardcoding the local proxy port, see README for more
+
+# I'm creating each QuestDB instance as a deployment with a single pod, and
+# a service forwarding the port. A more "proper" setup would use a StatefulSet
+# intead of a deployment and add some PersistentVolumes, but this keeps things
+# simpler for this project
 MANIFESTS = [
     {
         "manifest_file": "deployment.yaml",

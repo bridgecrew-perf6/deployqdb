@@ -44,7 +44,7 @@ Run the simple webserver:
 uvicorn deployqdb.api:app
 ```
 
-Runs on 8000 by default.  Documentation at `/docs`.  After you run a POST against `/deployqdb` you'll get a name, run a GET against `/deployqdb/{name}` and it'll return a QuestDB ip:port accessible from localhost, and DELETE against `/deployqdb/{name} will delete the instance`
+Runs on 8000 by default.  Documentation at `/docs`.  After you run a POST against `/deployqdb` you'll get a name, run a GET against `/deployqdb/{name}` and it'll return a QuestDB ip:port accessible from localhost, and DELETE against `/deployqdb/{name}` will delete the instance.
 
 ## Tests
 
