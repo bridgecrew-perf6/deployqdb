@@ -52,6 +52,7 @@ app = FastAPI(
         )
 
 
+# Data models/schemas
 class NewDB(BaseModel):
     # NOTE These are just placeholders that don't do anything
     # but this is where you could add user specified options
@@ -60,6 +61,12 @@ class NewDB(BaseModel):
 
 class DB(NewDB):
     name: str = Field(...,description="Unique identifier for the QuestDB instance")
+
+class DBStatus(BaseModel):
+    questdb_address: str = Field(...,description="Address at which to access QuestDB instance")
+    questdb_status_code: int = Field(...,description="Status code returned by pinging questdb_address (0 indicates no response)")
+    deployment_condition: list # NOTE I imagine you'd want to think carefully about exactly what information to surface to users, but this seems like some easy context for now
+
 
 @app.post("/deployqdb", tags=["create"], response_model=DB)
 def create(newdb: Optional[NewDB] = None):
@@ -84,11 +91,6 @@ def apply_manifest(manifest_file, api, method, delete_method, name):
                               arguments={'namespace':'default', 'body':body})
     return response
 
-
-class DBStatus(BaseModel):
-    questdb_address: str = Field(...,description="Address at which to access QuestDB instance")
-    questdb_status_code: int = Field(...,description="Status code returned by pinging questdb_address (0 indicates no response)")
-    deployment_condition: list # NOTE I imagine you'd want to think carefully about exactly what information to surface to users, but this seems like some easy context for now
 
 @app.get("/deployqdb/{name}", tags=["status"], response_model=DBStatus)
 def status(name):

@@ -2,14 +2,14 @@
 
 ## Requirements
 
-Tested on a Digital Ocean droplet running Ubuntu 20.04 and python 3.8 (should work fine elsewhere tho). Requires:
+Tested on a Digital Ocean droplet running Ubuntu 20.04 and python 3.8 (should work fine elsewhere though). Requires:
 
 * [docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
 * [minikube](https://minikube.sigs.k8s.io/docs/start/)
 * add QuestDB image to docker `docker pull questdb/questdb`
 * pip (if it's not on the host already)
 
-If MiniKube is up you should get something like:
+If MiniKube is up and running correctly you should get something like:
 
 ```
 $ minikube kubectl get all
@@ -22,10 +22,10 @@ service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   16s
 Pull down code:
 
 ```
-pull down github repo
+git clone https://github.com/picoDoc/deployqdb
 ```
 
-Install with python deps.  Since I'm on a throwaway droplet I just install globally, but use a venv if prefered (If you're installing to local might need to be careful it's on $PATH for uvicorn)
+Install package with python dependencies.  Since I'm on a throwaway droplet I just install globally, but use a venv if prefered (If you're installing to local might need to be careful it's on $PATH for uvicorn binary)
 
 ```
 cd deployqdb
@@ -44,11 +44,11 @@ Run the simple webserver:
 uvicorn deployqdb.api:app
 ```
 
-Runs on 8000 by default.  Documentation at /docs.  After you run create you'll get a name, run status for this name and it'll return a QuestDB ip:port accessible from localhost
+Runs on 8000 by default.  Documentation at `/docs`.  After you run a POST against `/deployqdb` you'll get a name, run a GET against `/deployqdb/{name}` and it'll return a QuestDB ip:port accessible from localhost, and DELETE against `/deployqdb/{name} will delete the instance`
 
 ## Tests
 
-The tests I've added are really integration tests rather than unit tests: they test interactions with k8s so can't be run in isolation, they require minikube to be available.  The 3 methods are also quite tightly coupled so are tested togther.  I don't think unit tests would be of much value here. Tests can be run with the standard pytest runner:
+The tests I've added are really integration tests rather than unit tests: they test interactions with k8s so can't be run in isolation, they require minikube to be available.  The three methods are also quite tightly coupled so are tested togther.  I don't think unit tests would be of much value here. Tests can be run with the standard pytest runner:
 
 ```
 pytest
